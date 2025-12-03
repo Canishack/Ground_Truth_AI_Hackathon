@@ -1,0 +1,61 @@
+body {
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  background: #f3f5f7;
+  margin: 0;
+  padding: 30px;
+}
+
+.wrap {
+  width: 720px;
+  margin: 20px auto;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 22px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+h1 {
+  margin-top: 0;
+}
+
+form {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin: 18px 0;
+}
+
+input[type="file"] {
+  flex: 1;
+}
+
+button {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  padding: 10px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #0f62a3;
+}
+
+.insights {
+  background: #f9fbff;
+  padding: 12px;
+  border-radius: 6px;
+  margin-top: 16px;
+}
+
+pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.downloads {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+}

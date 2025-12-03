@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Automated Insight Engine</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="wrap">
+    <h1>Automated Insight Engine</h1>
+    <p>Upload CSV / SQL / DB file and get AI insights + downloadable reports.</p>
+
+    <form action="/upload" method="post" enctype="multipart/form-data">
+      <input type="file" name="datafile" required>
+      <button type="submit">Upload & Process</button>
+    </form>
+
+    {% if uploaded_file %}
+      <div class="meta">
+        <p><strong>Uploaded:</strong> {{ uploaded_file }}</p>
+      </div>
+    {% endif %}
+
+    {% if insights %}
+      <section class="insights">
+        <h2>AI Insights</h2>
+        <pre>{{ insights }}</pre>
+
+        <div class="downloads">
+          <a href="{{ url_for('download', filename=pdf_path.split('/')[-1]) }}"><button>Download PDF</button></a>
+          <a href="{{ url_for('download', filename=pptx_path.split('/')[-1]) }}"><button>Download PPTX</button></a>
+        </div>
+      </section>
+    {% endif %}
+  </div>
+</body>
+</html>
