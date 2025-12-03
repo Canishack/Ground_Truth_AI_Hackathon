@@ -7,7 +7,7 @@
 While working on data-heavy projects, I observed a recurring pain point:  
 **Most analysts spend too much time cleaning data, running ad-hoc summaries, and formatting reports manually.**
 
-### ❌ The Real Issues:
+###  The Real Issues:
 - Raw CSV/SQL dumps are messy  
 - Pandas profiling takes time  
 - Insights aren’t always obvious  
@@ -43,11 +43,11 @@ Upload any of the following:
 Click “Upload & Process”
 
 #### **Output (Instant)**  
-- 📊 Clean summary (schema, stats, NA count)  
-- 🧠 AI-generated insights (trends, anomalies, KPIs)  
-- 📄 Downloadable PDF  
-- 🖼 Downloadable PPTX deck  
-- 🎯 Executive-ready content  
+-  Clean summary (schema, stats, NA count)  
+-  AI-generated insights (trends, anomalies, KPIs)  
+-  Downloadable PDF  
+- Downloadable PPTX deck  
+-  Executive-ready content  
 
 All generated dynamically using Python + OpenAI GPT.
 
@@ -57,7 +57,7 @@ All generated dynamically using Python + OpenAI GPT.
 
 I set out to build more than a script. I wanted a **mini production-grade intelligence engine**.
 
-### 🔍 **1. File Detection**
+###  **1. File Detection**
 A custom parser detects file type automatically:
 - CSV → Pandas  
 - SQL → Parsed into SQLite memory DB  
@@ -67,7 +67,7 @@ This ensures a **unified DataFrame** regardless of source.
 
 ---
 
-### 📊 **2. Data Processing**
+### **2. Data Processing**
 I implemented a structured ETL-like process:
 
 - Column extraction  
@@ -80,7 +80,7 @@ This ensures the AI always receives clean, structured context.
 
 ---
 
-### 🤖 **3. AI Insight Generation** *(The “Analyst”)*
+###  **3. AI Insight Generation** *(The “Analyst”)*
 
 The cleaned summary is passed to **GPT-4o-mini**, with a crafted prompt asking for:
 
@@ -120,7 +120,7 @@ Fast, clean, minimal.
 
 ---
 
-# 4. 🛠️ Tech Stack
+# 4.  Tech Stack
 
 | Layer | Technology |
 |-------|------------|
@@ -135,7 +135,7 @@ Fast, clean, minimal.
 
 ---
 
-# 5. ⚠️ Challenges & Learnings  
+# 5.  Challenges & Learnings  
 
 ### **Challenge 1: Handling Different File Types**
 CSV → fine.  
@@ -160,16 +160,6 @@ This dramatically reduced hallucinations.
 
 ---
 
-# 6. 📸 Visual Proof  
-(Not included here, but recommended for your GitHub readme)  
-You can add:
-
-- Screenshot of upload UI  
-- Snapshot of PDF  
-- Snapshot of PPT  
-- Sample AI insight output  
-
----
 
 # 7. ▶️ How to Run Locally  
 
@@ -195,3 +185,30 @@ echo "OPENAI_API_KEY=your_key_here" > .env
 
 # 5. Run Server
 python app.py
+
+
+automated_insight_engine/
+├── app.py                     # Flask web server
+├── requirements.txt           # Dependencies
+├── .env                       # OpenAI API key
+│
+├── templates/
+│   └── index.html             # Main upload UI
+│
+├── static/
+│   └── style.css              # Minimal styling
+│
+├── processors/
+│   ├── data_processor.py      # Data cleaning + stats
+│   ├── file_detector.py       # Detect file type
+│   └── db_reader.py           # Load SQL/DB files
+│
+├── llm/
+│   └── insight_generator.py   # GPT-based narrative generation
+│
+├── reports/
+│   ├── report_builder_pdf.py  # PDF generator
+│   └── report_builder_pptx.py # PPT generator
+│
+├── uploads/                   # Raw uploaded files
+└── generated_reports/         # Final downloadable reports
