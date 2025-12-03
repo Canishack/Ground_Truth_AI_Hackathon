@@ -1,6 +1,5 @@
 # 🚀 Automated Insight Engine  
-**Tagline:** A web-based intelligence system that transforms raw CSV/SQL/DB files into clean structured data, AI-generated insights, and export-ready PDF/PPTX reports — all in under 10 seconds.
-
+**Tagline:** A web-based intelligence system that transforms raw CSV/SQL/DB files into clean structured data, AI-generated insights, and export-ready PDF/PPTX reports
 ---
 
 # 1. 🎯 The Problem — Real-World Motivation  
@@ -29,7 +28,7 @@ No coding. No manual cleaning. No waiting.
 
 ---
 
-# 2. 🏁 Expected End Result
+# 2.  Expected End Result
 
 ### For the User:
 
@@ -53,7 +52,7 @@ All generated dynamically using Python + OpenAI GPT.
 
 ---
 
-# 3. 🧪 Technical Approach — Turning Raw Data Into Intelligence
+# 3.  Technical Approach — Turning Raw Data Into Intelligence
 
 I set out to build more than a script. I wanted a **mini production-grade intelligence engine**.
 
