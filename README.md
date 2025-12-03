@@ -7,7 +7,7 @@ This system uses **Python, Pandas, Flask & Generative AI** to transform unstruct
 ## ✨ Features  
 
 - **Multi-Format Upload** – Supports `.csv`, `.sql`, `.db`, `.sqlite` files  
-- 🔍 **Auto File-Type Detection** – Smart parser identifies the correct loader  
+-  **Auto File-Type Detection** – Smart parser identifies the correct loader  
 -**Automated Data Processing** – Schema extraction, statistics, missing values  
 - **AI  Insights** – GPT- generates trends, anomalies & KPIs  
 - **PDF & PPTX Export** – Beautifully formatted reports for decision-makers  
@@ -59,7 +59,7 @@ automated_insight_engine/
 └── generated_reports/         # Final downloadable reports
 
 # ⚙️ Local Development
-##🔑 Prerequisites
+## Prerequisites
 
 -Python 3.10+
 -pip
@@ -93,11 +93,11 @@ OPENAI_API_KEY=YOUR_OPENAI_KEY
 python app.py
 
 App opens at:
-👉 http://localhost:5000
+http://localhost:5000
 
 You can now upload .csv, .sql, .db files → and download AI-generated PDF/PPTX reports.
 
-🧠 How It Works (Pipeline)
+How It Works (Pipeline)
 1️. User Uploads File
 Stored in /uploads/.
 
