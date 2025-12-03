@@ -6,12 +6,12 @@ This system uses **Python, Pandas, Flask & Generative AI** to transform unstruct
 
 ## ✨ Features  
 
-- 📤 **Multi-Format Upload** – Supports `.csv`, `.sql`, `.db`, `.sqlite` files  
+- **Multi-Format Upload** – Supports `.csv`, `.sql`, `.db`, `.sqlite` files  
 - 🔍 **Auto File-Type Detection** – Smart parser identifies the correct loader  
-- 📊 **Automated Data Processing** – Schema extraction, statistics, missing values  
-- 🧠 **AI  Insights** – GPT- generates trends, anomalies & KPIs  
-- 📄 **PDF & PPTX Export** – Beautifully formatted reports for decision-makers  
-- 🌐 **Web-Based Interface** – Clean upload page built with Flask + HTML  
+-**Automated Data Processing** – Schema extraction, statistics, missing values  
+- **AI  Insights** – GPT- generates trends, anomalies & KPIs  
+- **PDF & PPTX Export** – Beautifully formatted reports for decision-makers  
+- **Web-Based Interface** – Clean upload page 
 
 ---
 
@@ -66,11 +66,11 @@ automated_insight_engine/
 -OpenAI API Key
 -Virtual environment 
 
-1️⃣ Clone Repository
+1️. Clone Repository
 git clone https://github.com/Canishack/Ground_Truth_AI_Hackathon
 cd Ground_Truth_AI_Hackathon/automated_insight_engine
 
-2️⃣ Create Virtual Environment
+2️. Create Virtual Environment
 python -m venv venv
 
 
@@ -82,14 +82,14 @@ venv\Scripts\activate
 Mac/Linux
 source venv/bin/activate
 
-3️⃣ Install Dependencies
+3️. Install Dependencies
 pip install -r requirements.txt
 
-4️⃣ Configure API Key
+4️. Configure API Key
 Create .env:
 OPENAI_API_KEY=YOUR_OPENAI_KEY
 
-5️⃣ Run Application
+5️. Run Application
 python app.py
 
 App opens at:
@@ -98,23 +98,23 @@ App opens at:
 You can now upload .csv, .sql, .db files → and download AI-generated PDF/PPTX reports.
 
 🧠 How It Works (Pipeline)
-1️⃣ User Uploads File
+1️. User Uploads File
 Stored in /uploads/.
 
-2️⃣ File Detector Module
+2️. File Detector Module
 Identifies type:
 CSV → read with Pandas
 SQL Dump → parsed & loaded
 DB/SQLite → loaded via SQLAlchemy
 
 
-3️⃣ Data Processing Module
+3️. Data Processing Module
 Generate schema
 Compute numeric statistics
 Identify missing values
 Provide 5 sample rows
 
-4️⃣ AI Insight Engine
+4️. AI Insight Engine
 Summary → GPT-4o → Output:
 Executive summary
 Key insights
@@ -122,13 +122,10 @@ Trends
 Anomalies
 KPI suggestions
 
-5️⃣ Report Builder
+5️. Report Builder
 User chooses:
 PDF (ReportLab)
 PPTX (python-pptx)
-6️⃣ Download Final Report
+
+6️. Download Final Report
 Saved inside /generated_reports/.
-
-
-📄 License
-This project is licensed under the MIT License.
