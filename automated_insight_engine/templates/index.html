@@ -27,8 +27,8 @@
         <pre>{{ insights }}</pre>
 
         <div class="downloads">
-          <a href="{{ url_for('download', filename=pdf_path.split('/')[-1]) }}"><button>Download PDF</button></a>
-          <a href="{{ url_for('download', filename=pptx_path.split('/')[-1]) }}"><button>Download PPTX</button></a>
+           <a href="{{ url_for('download', filename=pdf_file) }}" class="btn"><button>Download PDF</button></a>
+          <a href="{{ url_for('download', filename=pptx_file) }}" class="btn"><button>Download PPTX</button></a>
         </div>
       </section>
     {% endif %}

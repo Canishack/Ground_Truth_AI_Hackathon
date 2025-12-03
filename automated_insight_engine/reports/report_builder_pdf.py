@@ -1,79 +1,130 @@
-from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
-import textwrap
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import (
+    SimpleDocTemplate,
+    Paragraph,
+    Spacer,
+    Table,
+    TableStyle,
+)
+from reportlab.lib.units import inch
+from reportlab.lib.enums import TA_CENTER
 import datetime
 from typing import Dict
-
-
-def _wrap(text: str, width: int = 90):
-    lines = []
-    for paragraph in text.splitlines():
-        lines.extend(textwrap.wrap(paragraph, width=width) or [""])
-    return lines
+import textwrap
 
 
 def create_pdf_report(summary: Dict, insights: str, output_path: str):
-    c = canvas.Canvas(output_path, pagesize=letter)
-    width, height = letter
-    margin = 50
-    y = height - margin
+    doc = SimpleDocTemplate(
+        output_path,
+        pagesize=letter,
+        rightMargin=40,
+        leftMargin=40,
+        topMargin=40,
+        bottomMargin=40,
+    )
 
-    c.setFont("Helvetica-Bold", 16)
-    c.drawString(margin, y, "Automated Insight Engine")
-    y -= 24
-    c.setFont("Helvetica", 9)
-    c.drawString(margin, y, f"Generated: {datetime.datetime.utcnow().isoformat()} UTC")
-    y -= 18
+    styles = getSampleStyleSheet()
+    story = []
 
-    # Overview
-    c.setFont("Helvetica-Bold", 12)
-    c.drawString(margin, y, "Dataset Overview")
-    y -= 16
-    c.setFont("Helvetica", 9)
-    c.drawString(margin, y, f"Rows: {summary.get('row_count')}, Columns: {len(summary.get('columns', []))}")
-    y -= 14
+    # Title
+    title_style = styles["Title"]
+    title_style.alignment = TA_CENTER
+    story.append(Paragraph("Automated Insight Engine Report", title_style))
+    story.append(Spacer(1, 12))
 
-    # Missing values
-    c.setFont("Helvetica-Bold", 10)
-    c.drawString(margin, y, "Missing values (per column):")
-    y -= 14
-    c.setFont("Helvetica", 9)
-    missing = summary.get("missing_values", {})
-    for k, v in missing.items():
-        c.drawString(margin + 8, y, f"{k}: {v}")
-        y -= 12
-        if y < 80:
-            c.showPage()
-            y = height - margin
+    # Timestamp
+    timestamp = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
+    story.append(Paragraph(f"<i>Generated: {timestamp}</i>", styles["Normal"]))
+    story.append(Spacer(1, 20))
 
-    c.showPage()
-    y = height - margin
-    c.setFont("Helvetica-Bold", 12)
-    c.drawString(margin, y, "AI Insights")
-    y -= 18
-    c.setFont("Helvetica", 10)
-    for line in _wrap(insights, width=95):
-        c.drawString(margin, y, line)
-        y -= 12
-        if y < 60:
-            c.showPage()
-            y = height - margin
-            c.setFont("Helvetica", 10)
+    # -------------------- Dataset Overview Section --------------------
+    story.append(Paragraph("<b>1. Dataset Overview</b>", styles["Heading2"]))
+    story.append(Spacer(1, 8))
 
-    c.showPage()
-    y = height - margin
-    c.setFont("Helvetica-Bold", 12)
-    c.drawString(margin, y, "Sample Rows")
-    y -= 18
-    c.setFont("Helvetica", 9)
+    overview_data = [
+        ["Metric", "Value"],
+        ["Rows", summary.get("row_count")],
+        ["Columns", len(summary.get("columns", []))],
+    ]
+
+    t = Table(overview_data, hAlign="LEFT")
+    t.setStyle(
+        TableStyle(
+            [
+                ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#e8e8e8")),
+                ("TEXTCOLOR", (0, 0), (-1, 0), colors.black),
+                ("ALIGN", (0, 0), (-1, -1), "LEFT"),
+                ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+                ("BOTTOMPADDING", (0, 0), (-1, 0), 6),
+                ("BACKGROUND", (0, 1), (-1, -1), colors.whitesmoke),
+                ("GRID", (0, 0), (-1, -1), 0.3, colors.gray),
+            ]
+        )
+    )
+
+    story.append(t)
+    story.append(Spacer(1, 18))
+
+    # -------------------- Missing Values Table --------------------
+    story.append(Paragraph("<b>2. Missing Values</b>", styles["Heading2"]))
+    story.append(Spacer(1, 8))
+
+    mv = summary.get("missing_values", {})
+    mv_data = [["Column", "Missing Count"]]
+
+    for col, val in mv.items():
+        mv_data.append([col, val])
+
+    mv_table = Table(mv_data, hAlign="LEFT")
+    mv_table.setStyle(
+        TableStyle(
+            [
+                ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#e8e8e8")),
+                ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+                ("GRID", (0, 0), (-1, -1), 0.3, colors.gray),
+                ("BACKGROUND", (0, 1), (-1, -1), colors.whitesmoke),
+            ]
+        )
+    )
+
+    story.append(mv_table)
+    story.append(Spacer(1, 18))
+
+    # -------------------- AI Insights Section --------------------
+    story.append(Paragraph("<b>3. AI Insights</b>", styles["Heading2"]))
+    story.append(Spacer(1, 10))
+
+    wrapped = "<br/>".join(textwrap.wrap(insights, width=110))
+    story.append(Paragraph(wrapped, styles["BodyText"]))
+    story.append(Spacer(1, 24))
+
+    # -------------------- Sample Rows Table --------------------
+    story.append(Paragraph("<b>4. Sample Rows</b>", styles["Heading2"]))
+    story.append(Spacer(1, 8))
+
     sample = summary.get("sample_rows", [])
-    for row in sample:
-        s = ", ".join(f"{k}={v}" for k, v in row.items())
-        for line in textwrap.wrap(s, width=110):
-            c.drawString(margin, y, line)
-            y -= 12
-            if y < 60:
-                c.showPage()
-                y = height - margin
+    if sample:
+        # Header
+        headers = list(sample[0].keys())
+        rows = [headers]
 
-    c.save()
+        for row in sample:
+            rows.append([str(row[col]) for col in headers])
+
+        sample_table = Table(rows, hAlign="LEFT")
+        sample_table.setStyle(
+            TableStyle(
+                [
+                    ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#e8e8e8")),
+                    ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+                    ("GRID", (0, 0), (-1, -1), 0.3, colors.gray),
+                    ("BACKGROUND", (0, 1), (-1, -1), colors.whitesmoke),
+                ]
+            )
+        )
+
+        story.append(sample_table)
+
+    doc.build(story)

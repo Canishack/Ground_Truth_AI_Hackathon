@@ -1,0 +1,41 @@
+# ---- Python ----
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# ---- Environments ----
+venv/
+env/
+.venv/
+
+# ---- OS / Editor ----
+.DS_Store
+Thumbs.db
+.vscode/
+
+# ---- Python build / cache ----
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+.cache/
+dist/
+build/
+
+# ---- User Data ----
+uploads/
+generated_reports/
+Output/
+Screenshots/
+
+# ---- Logs ----
+*.log
+
+# ---- Temporary ----
+*.tmp
+*.bak
+*.swp
+
+# ---- Google/Gemini SDK artifacts ----
+google/
+google_generated/

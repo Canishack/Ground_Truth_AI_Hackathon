@@ -1,46 +1,40 @@
 import os
 import json
+import google.generativeai as genai
 from dotenv import load_dotenv
-import openai
 
 load_dotenv()
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-if not OPENAI_API_KEY:
-    raise EnvironmentError("OPENAI_API_KEY not set in environment")
 
-openai.api_key = OPENAI_API_KEY
+api_key = os.getenv("GEMINI_API_KEY")
+if not api_key:
+    raise EnvironmentError("GEMINI_API_KEY not set in .env")
+
+# Configure Gemini client
+genai.configure(api_key=api_key)
+
+# USE CORRECT MODEL
+MODEL_NAME = "models/gemini-2.5-flash"
 
 
 def _build_prompt(summary: dict) -> str:
-    # Keep prompt compact and deterministic
     summary_json = json.dumps(summary, indent=2)
-    prompt = (
-        "You are a senior data analyst. Use only the dataset summary provided. "
-        "Provide:\n"
-        "1) Executive summary (2-3 sentences)\n"
-        "2) Top 5 insights (bulleted)\n"
-        "3) Anomalies or data quality concerns\n"
-        "4) Suggested KPIs to track\n\n"
-        "Dataset summary:\n"
-        f"{summary_json}\n\n"
-        "Respond in plain text with clear sections."
+
+    return (
+        "You are a senior data analyst. Use ONLY the dataset summary provided.\n"
+        "Return the following sections:\n"
+        "1. Executive Summary (2–3 sentences)\n"
+        "2. Top 5 Insights (bullet points)\n"
+        "3. Any anomalies or data quality issues\n"
+        "4. Suggested KPIs to monitor\n\n"
+        f"Dataset Summary:\n{summary_json}\n"
     )
-    return prompt
 
 
-def generate_insights(summary: dict, model: str = "gpt-4o-mini") -> str:
+def generate_insights(summary: dict):
     prompt = _build_prompt(summary)
-    resp = openai.ChatCompletion.create(
-        model=model,
-        messages=[
-            {"role": "system", "content": "You are a concise data analyst."},
-            {"role": "user", "content": prompt}
-        ],
-        max_tokens=600,
-        temperature=0.0
-    )
-    # Defensive parsing
-    choices = resp.get("choices", [])
-    if not choices:
-        return "No response returned from LLM."
-    return choices[0].get("message", {}).get("content", "").strip()
+    try:
+        model = genai.GenerativeModel(MODEL_NAME)
+        response = model.generate_content(prompt)
+        return response.text.strip()
+    except Exception as exc:
+        return f"Failed to generate insights: {exc}"
